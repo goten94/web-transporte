@@ -1,0 +1,75 @@
+.home {
+    display: grid;
+    grid-template-columns: 250px 1fr 250px;
+    gap: 20px;
+  }
+  
+  .sidebarLeft {
+    /* estilos específicos si se necesitan */
+  }
+  
+  .mainContent {
+    min-width: 0; /* para que el contenido no se desborde */
+  }
+  
+  .sidebarRight {
+    /* estilos */
+  }
+  
+  .messageSection,
+  .mapSection,
+  .timelineSection {
+    margin-bottom: 2rem;
+  }
+  
+  .messageSection h2,
+  .mapSection h2,
+  .timelineSection h2 {
+    color: #22AB74;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #22AB74;
+    padding-bottom: 0.3rem;
+  }
+  
+  .messageBox {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  .secretarioImg {
+    border-radius: 50%;
+    border: 3px solid #22AB74;
+  }
+  
+  .mapPlaceholder img {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  .timeline {
+    list-style: none;
+    padding-left: 1rem;
+    border-left: 3px solid #22AB74;
+  }
+  
+  .timeline li {
+    margin-bottom: 0.8rem;
+    padding-left: 1rem;
+    position: relative;
+  }
+  
+  .timeline li::before {
+    content: '';
+    position: absolute;
+    left: -0.6rem;
+    top: 0.5rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #22AB74;
+  }

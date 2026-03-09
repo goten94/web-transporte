@@ -1,0 +1,36 @@
+.afiliacion h1 {
+    color: #22AB74;
+    margin-bottom: 1rem;
+  }
+  
+  .tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #22AB74;
+    padding-bottom: 0.5rem;
+  }
+  
+  .tabs a {
+    padding: 0.5rem 1rem;
+    background: #f0f0f0;
+    border-radius: 4px 4px 0 0;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  .tabs a:hover {
+    background: #22AB74;
+    color: white;
+  }
+  
+  .activeTab {
+    background: #22AB74 !important;
+    color: white !important;
+  }
+  
+  .content {
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+  }

@@ -1,0 +1,28 @@
+.noticias h1 {
+    color: #22AB74;
+    margin-bottom: 2rem;
+  }
+  
+  .newsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .newsItem {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #22AB74;
+  }
+  
+  .newsItem h3 {
+    margin-bottom: 0.5rem;
+    color: #000;
+  }
+  
+  .date {
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 1rem;
+  }

@@ -1,0 +1,28 @@
+.sidebar {
+    background-color: #f0f0f0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-right: 4px solid #22AB74;
+  }
+  
+  .sidebar h3 {
+    color: #22AB74;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #22AB74;
+    padding-bottom: 0.5rem;
+  }
+  
+  .communityList {
+    list-style: none;
+  }
+  
+  .communityList li {
+    padding: 0.5rem 0;
+    border-bottom: 1px dotted #ccc;
+    font-weight: 500;
+  }
+  
+  .communityList li:last-child {
+    border-bottom: none;
+  }

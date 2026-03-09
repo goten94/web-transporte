@@ -1,0 +1,59 @@
+.configSection {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .configSection h2 {
+    color: #22AB74;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #22AB74;
+    padding-bottom: 0.3rem;
+  }
+  
+  .configGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .configCard {
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-left: 3px solid #22AB74;
+  }
+  
+  .configCard h3 {
+    color: #22AB74;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+  }
+  
+  .textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+    margin-bottom: 0.5rem;
+  }
+  
+  .updateBtn {
+    background-color: #22AB74;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+  }
+  
+  .updateBtn:hover {
+    background-color: #1a8a5c;
+  }

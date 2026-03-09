@@ -1,0 +1,43 @@
+.sidebar {
+    background-color: #f8f8f8;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #22AB74;
+  }
+  
+  .sidebar h3 {
+    color: #22AB74;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #22AB74;
+    padding-bottom: 0.5rem;
+  }
+  
+  .toolList {
+    list-style: none;
+  }
+  
+  .toolList li {
+    margin-bottom: 0.8rem;
+  }
+  
+  .toolLink {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.2s;
+    padding: 0.3rem 0;
+  }
+  
+  .toolLink:hover {
+    color: #22AB74;
+    text-decoration: none;
+  }
+  
+  .icon {
+    color: #22AB74;
+    font-size: 1.2rem;
+    width: 1.5rem;
+  }

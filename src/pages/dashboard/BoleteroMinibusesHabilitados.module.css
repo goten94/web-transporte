@@ -1,0 +1,58 @@
+.container {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 500px;
+}
+
+.table th,
+.table td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #22AB74;
+  color: white;
+}
+
+.selectedRow {
+  background-color: #e0f2e9;
+}
+
+.selectBtn {
+  background-color: #22AB74;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.selectBtn:hover {
+  background-color: #1a8a5c;
+}
+
+.partirBtn {
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.partirBtn:hover {
+  background-color: #f57c00;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}

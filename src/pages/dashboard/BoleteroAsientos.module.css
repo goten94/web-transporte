@@ -1,0 +1,61 @@
+.container {
+    padding: 1rem;
+  }
+  
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .fila {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  
+  .asiento {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .asiento.libre {
+    background-color: #e8f5e8;
+    color: #2e7d32;
+  }
+  
+  .asiento.libre:hover {
+    background-color: #c8e6c9;
+  }
+  
+  .asiento.vendido {
+    background-color: #ffcdd2;
+    color: #c62828;
+    cursor: not-allowed;
+  }
+  
+  .asiento.conductor {
+    background-color: #b0bec5;
+    color: #37474f;
+    cursor: default;
+  }
+
+  .readOnly {
+    cursor: default !important;
+    opacity: 0.8;
+  }
+  
+  .nota {
+    margin-top: 0.5rem;
+    font-style: italic;
+    color: #666;
+    text-align: center;
+  }

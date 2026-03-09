@@ -1,0 +1,175 @@
+.dashboard {
+    padding: 1rem;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .dashboard h1 {
+    color: #22AB74;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #22AB74;
+    padding-bottom: 0.5rem;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .dashboard {
+      padding: 0.5rem;
+    }
+  }
+  .configSection {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .configSection h2 {
+    color: #22AB74;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #22AB74;
+    padding-bottom: 0.3rem;
+  }
+  
+  .configGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .configCard {
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-left: 3px solid #22AB74;
+  }
+  
+  .configCard h3 {
+    color: #22AB74;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+  }
+  
+  .textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+    margin-bottom: 0.5rem;
+  }
+  
+  .updateBtn {
+    background-color: #22AB74;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+  }
+  
+  .updateBtn:hover {
+    background-color: #1a8a5c;
+  }
+
+  .tabNav {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0 2rem;
+    border-bottom: 2px solid #22AB74;
+    padding-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .tabButton {
+    background: none;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    border-radius: 4px 4px 0 0;
+    transition: all 0.2s;
+  }
+  
+  .tabButton:hover {
+    background-color: #e0f2e9;
+  }
+  
+  .activeTab {
+    background-color: #22AB74;
+    color: white;
+  }
+  
+  .tabContent {
+    margin-top: 1.5rem;
+  }
+  
+  /* Estilos para la sección de configuración (ya existentes, pero aseguramos) */
+  .configSection {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .configSection h2 {
+    color: #22AB74;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #22AB74;
+    padding-bottom: 0.3rem;
+  }
+  
+  .configGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .configCard {
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-left: 3px solid #22AB74;
+  }
+  
+  .configCard h3 {
+    color: #22AB74;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+  }
+  
+  .textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+    margin-bottom: 0.5rem;
+  }
+  
+  .updateBtn {
+    background-color: #22AB74;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+  }
+  
+  .updateBtn:hover {
+    background-color: #1a8a5c;
+  }

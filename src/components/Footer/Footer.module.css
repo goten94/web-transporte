@@ -1,0 +1,66 @@
+.footer {
+    background-color: #000;
+    color: white;
+    padding: 2rem 0 1rem;
+    margin-top: 2rem;
+    border-top: 3px solid #22AB74;
+  }
+  
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+  
+  .footer h3 {
+    color: #22AB74;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+  }
+  
+  .sedes p {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .enlaces ul {
+    list-style: none;
+  }
+  
+  .enlaces li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .enlaces a {
+    color: #aaa;
+    font-size: 0.9rem;
+  }
+  
+  .enlaces a:hover {
+    color: #22AB74;
+  }
+  
+  .certIcons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .certIcons span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .copyright {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #333;
+    font-size: 0.8rem;
+    color: #aaa;
+  }
