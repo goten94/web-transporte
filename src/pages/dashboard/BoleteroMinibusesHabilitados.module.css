@@ -56,3 +56,22 @@
   gap: 0.3rem;
   flex-wrap: wrap;
 }
+
+.encomiendaBtn {
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+.encomiendaBtn:hover {
+  background-color: #f57c00;
+}
+.actionButtons {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}

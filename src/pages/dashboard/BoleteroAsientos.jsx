@@ -2,6 +2,7 @@ import styles from './BoleteroAsientos.module.css';
 
 function BoleteroAsientos({ minibus, onAsientoClick }) {
   const asientos = minibus.asientos;
+  let numeroAsiento = 1; // Contador para numerar del 1 al 14
 
   return (
     <div className={styles.container}>
@@ -10,6 +11,8 @@ function BoleteroAsientos({ minibus, onAsientoClick }) {
           <div key={i} className={styles.fila}>
             {fila.map((asiento, j) => {
               const esConductor = (i === 0 && j === 0);
+              // Asignar número solo si no es conductor
+              const numero = esConductor ? null : numeroAsiento++;
               return (
                 <div
                   key={`${i}-${j}`}
@@ -20,7 +23,7 @@ function BoleteroAsientos({ minibus, onAsientoClick }) {
                     }
                   }}
                 >
-                  {esConductor ? 'C' : `${i+1}-${j+1}`}
+                  {esConductor ? 'C' : numero}
                   {asiento.estado === 'vendido' && ' (V)'}
                 </div>
               );

@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { FaSearch, FaMoneyBillWave, FaExclamationTriangle } from 'react-icons/fa';
-import PagarModal from './PagarModal';
-import DeudasModal from './DeudasModal';
 import styles from './TesoreroDashboard.module.css';
+import PagoModal from './PagoModal';
+import TicketPago from './TicketPago.jsx';
 
-// Datos mock de afiliados propietarios (solo propietarios)
+// Datos mock de afiliados propietarios (con deudas simuladas)
 const initialAfiliados = [
   {
     id: 1,
@@ -12,250 +11,214 @@ const initialAfiliados = [
     nombre: 'Juan Pérez',
     email: 'juan.perez@example.com',
     telefono: '78912345',
-    tipo: 'propietario',
-    vehiculo: { placa: 'ABC-123', marca: 'Toyota' },
+    vehiculo: {
+      placa: 'ABC-123',
+      marca: 'Toyota',
+    },
     aportes: [
-      { mes: 'Enero', año: 2025, monto: 150, estado: 'pagado' },
-      { mes: 'Febrero', año: 2025, monto: 150, estado: 'pendiente' },
-      { mes: 'Marzo', año: 2025, monto: 150, estado: 'pendiente' },
+      { mes: 'Enero 2025', monto: 150, estado: 'pagado' },
+      { mes: 'Febrero 2025', monto: 150, estado: 'pendiente' },
+      { mes: 'Marzo 2025', monto: 150, estado: 'pendiente' },
     ],
   },
   {
     id: 2,
-    foto: 'https://randomuser.me/api/portraits/women/2.jpg',
-    nombre: 'María Gómez',
-    email: 'maria.gomez@example.com',
-    telefono: '71234567',
-    tipo: 'propietario',
-    vehiculo: { placa: 'XYZ-789', marca: 'Volvo' },
-    aportes: [
-      { mes: 'Enero', año: 2025, monto: 200, estado: 'pagado' },
-      { mes: 'Febrero', año: 2025, monto: 200, estado: 'pagado' },
-      { mes: 'Marzo', año: 2025, monto: 200, estado: 'pagado' },
-    ],
-  },
-  {
-    id: 3,
-    foto: 'https://randomuser.me/api/portraits/men/3.jpg',
+    foto: 'https://randomuser.me/api/portraits/men/2.jpg',
     nombre: 'Carlos López',
     email: 'carlos.lopez@example.com',
-    telefono: '69876543',
-    tipo: 'propietario',
-    vehiculo: { placa: 'LMN-456', marca: 'Mercedes' },
+    telefono: '71234567',
+    vehiculo: {
+      placa: 'XYZ-789',
+      marca: 'Volvo',
+    },
     aportes: [
-      { mes: 'Enero', año: 2025, monto: 180, estado: 'pendiente' },
-      { mes: 'Febrero', año: 2025, monto: 180, estado: 'pendiente' },
-      { mes: 'Marzo', año: 2025, monto: 180, estado: 'pendiente' },
+      { mes: 'Enero 2025', monto: 200, estado: 'pagado' },
+      { mes: 'Febrero 2025', monto: 200, estado: 'pagado' },
+      { mes: 'Marzo 2025', monto: 200, estado: 'pendiente' },
     ],
   },
 ];
 
 function TesoreroDashboard() {
   const [afiliados, setAfiliados] = useState(initialAfiliados);
-  const [searchTerm1, setSearchTerm1] = useState(''); // búsqueda para tabla 1
-  const [searchTerm2, setSearchTerm2] = useState(''); // búsqueda para tabla 2
-  const [showPagarModal, setShowPagarModal] = useState(false);
+  const [searchTermAll, setSearchTermAll] = useState('');
+  const [searchTermDeudores, setSearchTermDeudores] = useState('');
+  const [showPagoModal, setShowPagoModal] = useState(false);
   const [selectedAfiliado, setSelectedAfiliado] = useState(null);
-  const [showDeudasModal, setShowDeudasModal] = useState(false);
+  const [selectedMes, setSelectedMes] = useState(null); // mes a pagar
+  const [showTicket, setShowTicket] = useState(false);
+  const [pagoRealizado, setPagoRealizado] = useState(null); // datos del pago completado
 
-  // Filtrar afiliados para tabla 1 (todos los propietarios) según búsqueda
-  const filteredAfiliados = afiliados.filter(afi => {
-    const term = searchTerm1.toLowerCase();
-    return (
-      afi.nombre.toLowerCase().includes(term) ||
-      afi.email.toLowerCase().includes(term) ||
-      afi.vehiculo.placa.toLowerCase().includes(term)
-    );
-  });
-
-  // Filtrar deudores (al menos un aporte pendiente) y luego aplicar búsqueda
-  const deudores = afiliados.filter(afi =>
-    afi.aportes.some(a => a.estado === 'pendiente')
+  // Filtrar todos los afiliados
+  const filteredAll = afiliados.filter(a =>
+    a.nombre.toLowerCase().includes(searchTermAll.toLowerCase()) ||
+    a.vehiculo.placa.toLowerCase().includes(searchTermAll.toLowerCase())
   );
-  const filteredDeudores = deudores.filter(afi => {
-    const term = searchTerm2.toLowerCase();
-    return (
-      afi.nombre.toLowerCase().includes(term) ||
-      afi.email.toLowerCase().includes(term) ||
-      afi.vehiculo.placa.toLowerCase().includes(term)
-    );
-  });
 
-  // Función para manejar el pago
-  const handlePagar = (afiliadoId, mes, año, fechaPago) => {
+  // Filtrar solo deudores (con al menos un aporte pendiente)
+  const deudores = afiliados.filter(a =>
+    a.aportes.some(ap => ap.estado === 'pendiente')
+  );
+  const filteredDeudores = deudores.filter(a =>
+    a.nombre.toLowerCase().includes(searchTermDeudores.toLowerCase()) ||
+    a.vehiculo.placa.toLowerCase().includes(searchTermDeudores.toLowerCase())
+  );
+
+  const handlePagarClick = (afiliado, mes) => {
+    setSelectedAfiliado(afiliado);
+    setSelectedMes(mes);
+    setShowPagoModal(true);
+  };
+
+  const handlePagoSubmit = (datosPago) => {
+    // Actualizar el estado del aporte a "pagado"
     setAfiliados(prev =>
-      prev.map(afi => {
-        if (afi.id === afiliadoId) {
-          const nuevosAportes = afi.aportes.map(ap => {
-            if (ap.mes === mes && ap.año === año && ap.estado === 'pendiente') {
-              return { ...ap, estado: 'pagado', fechaPago };
-            }
-            return ap;
-          });
-          return { ...afi, aportes: nuevosAportes };
+      prev.map(a => {
+        if (a.id === selectedAfiliado.id) {
+          const nuevosAportes = a.aportes.map(ap =>
+            ap.mes === selectedMes ? { ...ap, estado: 'pagado' } : ap
+          );
+          return { ...a, aportes: nuevosAportes };
         }
-        return afi;
+        return a;
       })
     );
-    setShowPagarModal(false);
-    setSelectedAfiliado(null);
+
+    // Guardar datos del pago para el ticket
+    setPagoRealizado({
+      ...datosPago,
+      afiliado: selectedAfiliado,
+      mes: selectedMes,
+      fecha: new Date().toLocaleDateString(),
+      hora: new Date().toLocaleTimeString(),
+    });
+    setShowPagoModal(false);
+    setShowTicket(true);
   };
 
-  // Abrir modal de pago
-  const openPagarModal = (afiliado) => {
-    setSelectedAfiliado(afiliado);
-    setShowPagarModal(true);
-  };
-
-  // Abrir modal de deudas
-  const openDeudasModal = (afiliado) => {
-    setSelectedAfiliado(afiliado);
-    setShowDeudasModal(true);
+  const handleVerDeudas = (afiliado) => {
+    const pendientes = afiliado.aportes.filter(ap => ap.estado === 'pendiente');
+    alert(`Meses pendientes:\n${pendientes.map(p => `${p.mes} - Bs. ${p.monto}`).join('\n')}`);
   };
 
   return (
-    <div className={styles.dashboard}>
+    <div className={styles.tesorero}>
       <h1>Panel del Tesorero</h1>
 
-      {/* Primera tabla: Todos los afiliados propietarios */}
-      <section className={styles.section}>
-        <div className={styles.headerActions}>
-          <h2>Todos los Afiliados Propietarios</h2>
-          <div className={styles.searchBox}>
-            <FaSearch className={styles.searchIcon} />
-            <input
-              type="text"
-              placeholder="Buscar por nombre, email o placa..."
-              value={searchTerm1}
-              onChange={(e) => setSearchTerm1(e.target.value)}
-            />
+      <div className={styles.tablasContainer}>
+        {/* Tabla 1: Todos los afiliados propietarios */}
+        <div className={styles.tablaSection}>
+          <h2>Todos los Afiliados</h2>
+          <input
+            type="text"
+            placeholder="Buscar por nombre o placa..."
+            value={searchTermAll}
+            onChange={(e) => setSearchTermAll(e.target.value)}
+            className={styles.searchInput}
+          />
+          <div className={styles.tableWrapper}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Foto</th>
+                  <th>Nombre</th>
+                  <th>Teléfono</th>
+                  <th>Vehículo</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredAll.map(afi => (
+                  <tr key={afi.id}>
+                    <td><img src={afi.foto} alt={afi.nombre} className={styles.foto} /></td>
+                    <td>{afi.nombre}</td>
+                    <td>{afi.telefono}</td>
+                    <td>{afi.vehiculo.marca} - {afi.vehiculo.placa}</td>
+                    <td>
+                      <div className={styles.actionButtons}>
+                        {afi.aportes
+                          .filter(ap => ap.estado === 'pendiente')
+                          .map(ap => (
+                            <button
+                              key={ap.mes}
+                              className={styles.pagarBtn}
+                              onClick={() => handlePagarClick(afi, ap.mes)}
+                            >
+                              Pagar {ap.mes}
+                            </button>
+                          ))}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-        <div className={styles.tableWrapper}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>Foto</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>Vehículo</th>
-                <th>Placa</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredAfiliados.length > 0 ? (
-                filteredAfiliados.map(afi => (
+
+        {/* Tabla 2: Afiliados deudores */}
+        <div className={styles.tablaSection}>
+          <h2>Afiliados Deudores</h2>
+          <input
+            type="text"
+            placeholder="Buscar deudor..."
+            value={searchTermDeudores}
+            onChange={(e) => setSearchTermDeudores(e.target.value)}
+            className={styles.searchInput}
+          />
+          <div className={styles.tableWrapper}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Foto</th>
+                  <th>Nombre</th>
+                  <th>Vehículo</th>
+                  <th>Meses Adeudados</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredDeudores.map(afi => (
                   <tr key={afi.id}>
-                    <td className={styles.fotoCell}>
-                      <img src={afi.foto} alt={afi.nombre} className={styles.foto} />
-                    </td>
+                    <td><img src={afi.foto} alt={afi.nombre} className={styles.foto} /></td>
                     <td>{afi.nombre}</td>
-                    <td>{afi.email}</td>
-                    <td>{afi.telefono}</td>
-                    <td>{afi.vehiculo.marca}</td>
-                    <td>{afi.vehiculo.placa}</td>
+                    <td>{afi.vehiculo.marca} - {afi.vehiculo.placa}</td>
+                    <td>
+                      {afi.aportes.filter(ap => ap.estado === 'pendiente').map(ap => ap.mes).join(', ')}
+                    </td>
                     <td>
                       <button
-                        className={styles.pagarBtn}
-                        onClick={() => openPagarModal(afi)}
-                        title="Registrar pago"
+                        className={styles.verBtn}
+                        onClick={() => handleVerDeudas(afi)}
                       >
-                        <FaMoneyBillWave /> Pagar
+                        Ver Deudas
                       </button>
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="7" className={styles.noData}>No se encontraron afiliados</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      {/* Segunda tabla: Deudores */}
-      <section className={styles.section}>
-        <div className={styles.headerActions}>
-          <h2>Afiliados con Deudas</h2>
-          <div className={styles.searchBox}>
-            <FaSearch className={styles.searchIcon} />
-            <input
-              type="text"
-              placeholder="Buscar deudor..."
-              value={searchTerm2}
-              onChange={(e) => setSearchTerm2(e.target.value)}
-            />
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-        <div className={styles.tableWrapper}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>Foto</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>Vehículo</th>
-                <th>Placa</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredDeudores.length > 0 ? (
-                filteredDeudores.map(afi => (
-                  <tr key={afi.id}>
-                    <td className={styles.fotoCell}>
-                      <img src={afi.foto} alt={afi.nombre} className={styles.foto} />
-                    </td>
-                    <td>{afi.nombre}</td>
-                    <td>{afi.email}</td>
-                    <td>{afi.telefono}</td>
-                    <td>{afi.vehiculo.marca}</td>
-                    <td>{afi.vehiculo.placa}</td>
-                    <td>
-                      <button
-                        className={styles.deudasBtn}
-                        onClick={() => openDeudasModal(afi)}
-                        title="Ver deudas"
-                      >
-                        <FaExclamationTriangle /> Ver deudas
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="7" className={styles.noData}>No hay deudores</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </section>
+      </div>
 
-      {/* Modal para pagar */}
-      {showPagarModal && selectedAfiliado && (
-        <PagarModal
+      {/* Modal de pago */}
+      {showPagoModal && selectedAfiliado && selectedMes && (
+        <PagoModal
           afiliado={selectedAfiliado}
-          onClose={() => {
-            setShowPagarModal(false);
-            setSelectedAfiliado(null);
-          }}
-          onPagar={handlePagar}
+          mes={selectedMes}
+          onClose={() => setShowPagoModal(false)}
+          onPagar={handlePagoSubmit}
         />
       )}
 
-      {/* Modal para ver deudas */}
-      {showDeudasModal && selectedAfiliado && (
-        <DeudasModal
-          afiliado={selectedAfiliado}
-          onClose={() => {
-            setShowDeudasModal(false);
-            setSelectedAfiliado(null);
+      {/* Modal de ticket de pago */}
+      {showTicket && pagoRealizado && (
+        <TicketPago
+          pago={pagoRealizado}
+          onCerrar={() => {
+            setShowTicket(false);
+            setPagoRealizado(null);
           }}
         />
       )}

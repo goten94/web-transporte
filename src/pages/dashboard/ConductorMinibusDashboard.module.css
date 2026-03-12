@@ -1,0 +1,172 @@
+.dashboard {
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+  }
+  
+  .dashboard h1 {
+    color: #22AB74;
+    margin-bottom: 0.5rem;
+    border-bottom: 2px solid #22AB74;
+    padding-bottom: 0.3rem;
+  }
+  
+  .welcome {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #555;
+  }
+  
+  /* Sección disponibilidad */
+  .disponibilidadSection {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+  }
+  
+  .disponibilidadSection h2 {
+    color: #22AB74;
+    margin-bottom: 1rem;
+  }
+  
+  .disponibilidadCard {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .busIcon {
+    font-size: 3rem;
+    color: #22AB74;
+  }
+  
+  .estadoTexto {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  .disponibilidadBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .disponibilidadBtn.verde {
+    background-color: #22AB74;
+    color: white;
+  }
+  
+  .disponibilidadBtn.verde:hover {
+    background-color: #1a8a5c;
+  }
+  
+  .disponibilidadBtn.rojo {
+    background-color: #d32f2f;
+    color: white;
+  }
+  
+  .disponibilidadBtn.rojo:hover {
+    background-color: #b71c1c;
+  }
+  
+  /* Sección encomiendas */
+  .encomiendasSection {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .encomiendasSection h2 {
+    color: #22AB74;
+    margin-bottom: 1rem;
+  }
+  
+  .tableWrapper {
+    overflow-x: auto;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1000px;
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .table th {
+    background-color: #22AB74;
+    color: white;
+    font-weight: 600;
+  }
+  
+  .table tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .entregadoBtn {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+  }
+  
+  .entregadoBtn:hover {
+    background-color: #f57c00;
+  }
+  
+  .noData {
+    text-align: center;
+    padding: 2rem;
+    color: #999;
+    font-style: italic;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .disponibilidadCard {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .actionButtons {
+    display: flex;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+  }
+  
+  .detalleBtn {
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    padding: 0.3rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+  
+  .detalleBtn:hover {
+    background-color: #115293;
+  }

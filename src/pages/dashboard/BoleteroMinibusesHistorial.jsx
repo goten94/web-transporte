@@ -1,6 +1,6 @@
 import styles from './BoleteroMinibusesHistorial.module.css';
 
-function BoleteroMinibusesHistorial({ partidos, onSeleccionar, selectedId }) {
+function BoleteroMinibusesHistorial({ partidos, onSeleccionar, onVerEncomiendas, selectedId }) {
   return (
     <div className={styles.container}>
       <h3>Minibuses que Partieron</h3>
@@ -14,7 +14,7 @@ function BoleteroMinibusesHistorial({ partidos, onSeleccionar, selectedId }) {
               <th>Conductor</th>
               <th>Destino</th>
               <th>Hora Partida</th>
-              <th>Acción</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -25,9 +25,14 @@ function BoleteroMinibusesHistorial({ partidos, onSeleccionar, selectedId }) {
                 <td>{m.destino}</td>
                 <td>{m.horaPartida}</td>
                 <td>
-                  <button className={styles.selectBtn} onClick={() => onSeleccionar(m)}>
-                    Ver pasajeros
-                  </button>
+                  <div className={styles.actionButtons}>
+                    <button className={styles.selectBtn} onClick={() => onSeleccionar(m)}>
+                      Ver pasajeros
+                    </button>
+                    <button className={styles.encomiendaBtn} onClick={() => onVerEncomiendas(m)}>
+                      Ver encomiendas
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

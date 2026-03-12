@@ -4,7 +4,7 @@
 
 .dashboard h1 {
   color: #22AB74;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   border-bottom: 2px solid #22AB74;
   padding-bottom: 0.5rem;
 }
@@ -13,42 +13,79 @@
   display: grid;
   grid-template-columns: 1fr 1.5fr 1.5fr;
   gap: 1.5rem;
+  align-items: start;
 }
 
-.columna {
+.columnaIzquierda,
+.columnaCentral,
+.columnaDerecha {
   background: #f9f9f9;
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+}
+
+.columnaCentral {
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
 }
 
-.columna h2 {
+.seccionCentral {
+  background: white;
+  padding: 0.8rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.seccionCentral h2 {
   color: #22AB74;
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
   border-bottom: 1px solid #22AB74;
   padding-bottom: 0.3rem;
 }
 
-.subseccion {
-  background: white;
-  padding: 0.8rem;
-  border-radius: 6px;
+.tablaScroll {
+  max-height: 300px; /* Ajusta según necesidad */
+  overflow-y: auto;
   border: 1px solid #e0e0e0;
+  border-radius: 4px;
 }
 
-.subseccion h2 {
-  font-size: 1.1rem;
-  margin-top: 0;
-  margin-bottom: 0.8rem;
-  color: #555;
-  border-bottom: 1px solid #ccc;
+.tablaWrapper {
+  width: 100%;
+  overflow-x: auto;
 }
 
-@media (max-width: 1000px) {
+/* Estilos para las tablas (ya existentes, pero asegurar que ocupen todo el ancho) */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 500px; /* Para que no se compriman demasiado */
+  font-size: 0.9rem;
+}
+
+.table th,
+.table td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.table th {
+  background-color: #22AB74;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
   .tablasContainer {
     grid-template-columns: 1fr;
   }

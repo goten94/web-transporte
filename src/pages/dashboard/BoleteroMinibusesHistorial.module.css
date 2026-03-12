@@ -1,39 +1,59 @@
 .container {
-    overflow-x: auto;
-    margin-top: 1rem;
-  }
-  
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 400px;
-  }
-  
-  .table th,
-  .table td {
-    padding: 0.5rem;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .table th {
-    background-color: #607d8b; /* gris azulado para historial */
-    color: white;
-  }
-  
-  .selectedRow {
-    background-color: #e0e0e0;
-  }
-  
-  .selectBtn {
-    background-color: #607d8b;
-    color: white;
-    border: none;
-    padding: 0.3rem 0.8rem;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .selectBtn:hover {
-    background-color: #455a64;
-  }
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 500px;
+}
+
+.table th,
+.table td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #22AB74;
+  color: white;
+}
+
+.selectedRow {
+  background-color: #e0f2e9;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.selectBtn {
+  background-color: #22AB74;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.selectBtn:hover {
+  background-color: #1a8a5c;
+}
+
+.encomiendaBtn {
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.encomiendaBtn:hover {
+  background-color: #f57c00;
+}

@@ -1,6 +1,6 @@
 import styles from './BoleteroMinibusesHabilitados.module.css';
 
-function BoleteroMinibusesHabilitados({ minibuses, onSeleccionar, onPartir, selectedId }) {
+function BoleteroMinibusesHabilitados({ minibuses, onSeleccionar, onPartir, onEncomienda, selectedId }) {
   return (
     <div className={styles.container}>
       {minibuses.length === 0 ? (
@@ -32,6 +32,9 @@ function BoleteroMinibusesHabilitados({ minibuses, onSeleccionar, onPartir, sele
                     </button>
                     <button className={styles.partirBtn} onClick={() => onPartir(m)}>
                       PARTIR
+                    </button>
+                    <button className={styles.encomiendaBtn} onClick={() => onEncomienda(m)}>
+                      Encomienda
                     </button>
                   </div>
                 </td>

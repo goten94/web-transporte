@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import BoleteroMinibusesDisponibles from './BoleteroMinibusesDisponibles';
 import BoleteroMinibusesHabilitados from './BoleteroMinibusesHabilitados';
-import BoleteroMinibusesHistorial from './BoleteroMinibusesHistorial'; // nuevo componente
+import BoleteroMinibusesHistorial from './BoleteroMinibusesHistorial';
 import BoleteroAsientos from './BoleteroAsientos';
 import HabilitarMinibusModal from './HabilitarMinibusModal';
 import VenderAsientoModal from './VenderAsientoModal';
 import EditarAsientoModal from './EditarAsientoModal';
 import OpcionesAsientoModal from './OpcionesAsientoModal';
-import styles from './BoleteroDashboard.module.css';
 import DetallePasajeroModal from './DetallePasajeroModal';
+import EncomiendaModal from './EncomiendaModal';
+import TicketEncomienda from './TicketEncomienda';
+import HistorialEncomiendasModal from './HistorialEncomiendasModal'; // Nuevo
+import styles from './BoleteroDashboard.module.css';
 
 // Datos iniciales de minibuses disponibles
 const minibusesIniciales = [
@@ -18,16 +21,11 @@ const minibusesIniciales = [
 ];
 
 function BoleteroDashboard() {
-  ///////
-  const [isHistorialMode, setIsHistorialMode] = useState(false);
-const [showDetalleModal, setShowDetalleModal] = useState(false);
-const [asientoDetalle, setAsientoDetalle] = useState(null);
-  ///////
   const [disponibles, setDisponibles] = useState(minibusesIniciales);
   const [habilitados, setHabilitados] = useState([]);
-  const [partidos, setPartidos] = useState([]); // historial de minibuses que partieron
+  const [partidos, setPartidos] = useState([]);
   const [selectedMinibus, setSelectedMinibus] = useState(null);
-  const [selectedMinibusTipo, setSelectedMinibusTipo] = useState(null); // 'habilitado' o 'historial'
+  const [isHistorialMode, setIsHistorialMode] = useState(false);
   const [showHabilitarModal, setShowHabilitarModal] = useState(false);
   const [minibusToHabilitar, setMinibusToHabilitar] = useState(null);
   const [showVentaModal, setShowVentaModal] = useState(false);
@@ -35,6 +33,19 @@ const [asientoDetalle, setAsientoDetalle] = useState(null);
   const [showOpcionesModal, setShowOpcionesModal] = useState(false);
   const [asientoToEdit, setAsientoToEdit] = useState(null);
   const [showEditarModal, setShowEditarModal] = useState(false);
+  const [showDetalleModal, setShowDetalleModal] = useState(false);
+  const [asientoDetalle, setAsientoDetalle] = useState(null);
+  const [showEncomiendaModal, setShowEncomiendaModal] = useState(false);
+  const [minibusEncomienda, setMinibusEncomienda] = useState(null);
+  const [showTicketEncomienda, setShowTicketEncomienda] = useState(false);
+  const [encomiendaActual, setEncomiendaActual] = useState(null);
+
+  
+  // Nuevo estado para almacenar todas las encomiendas
+  const [encomiendas, setEncomiendas] = useState([]);
+  // Nuevo estado para el modal de historial de encomiendas
+  const [showHistorialEncomiendas, setShowHistorialEncomiendas] = useState(false);
+  const [minibusHistorialEncomiendas, setMinibusHistorialEncomiendas] = useState(null);
 
   // Generar matriz de asientos: 5 filas, 3 columnas. Asiento (0,0) es conductor.
   const generarAsientosIniciales = () => {
@@ -69,19 +80,6 @@ const [asientoDetalle, setAsientoDetalle] = useState(null);
     setMinibusToHabilitar(null);
   };
 
-  // Partir minibús (mover de habilitados a partidos)
-  const handlePartir = (minibus) => {
-    const horaPartida = new Date().toLocaleTimeString();
-    const minibusConPartida = { ...minibus, horaPartida };
-    setPartidos([...partidos, minibusConPartida]);
-    setHabilitados(habilitados.filter(m => m.id !== minibus.id));
-    // Si el minibús que partió era el seleccionado, limpiar selección
-    if (selectedMinibus && selectedMinibus.id === minibus.id) {
-      setSelectedMinibus(null);
-      setSelectedMinibusTipo(null);
-    }
-  };
-
   // Vender asiento
   const handleVenderAsiento = (datosVenta) => {
     const { minibusId, fila, columna, pasajero, costo, destino } = datosVenta;
@@ -90,7 +88,7 @@ const [asientoDetalle, setAsientoDetalle] = useState(null);
         const nuevosAsientos = [...m.asientos];
         nuevosAsientos[fila][columna] = {
           estado: 'vendido',
-          pasajero: { nombre: pasajero.nombre, documento: pasajero.documento },
+          pasajero,
           costo,
           destino,
         };
@@ -110,7 +108,7 @@ const [asientoDetalle, setAsientoDetalle] = useState(null);
         const nuevosAsientos = [...m.asientos];
         nuevosAsientos[fila][columna] = {
           ...nuevosAsientos[fila][columna],
-          pasajero: { nombre: pasajero.nombre, documento: pasajero.documento },
+          pasajero,
           costo,
           destino,
         };
@@ -138,38 +136,51 @@ const [asientoDetalle, setAsientoDetalle] = useState(null);
     setAsientoToEdit(null);
   };
 
+  // Partir minibús
+  const handlePartir = (minibus) => {
+    const horaPartida = new Date().toLocaleTimeString();
+    const minibusConHora = { ...minibus, horaPartida };
+    setPartidos([...partidos, minibusConHora]);
+    setHabilitados(habilitados.filter(m => m.id !== minibus.id));
+    if (selectedMinibus?.id === minibus.id) {
+      setSelectedMinibus(null);
+      setIsHistorialMode(false);
+    }
+  };
+
   // Seleccionar minibús habilitado
   const handleSelectHabilitado = (minibus) => {
     setSelectedMinibus(minibus);
-    setSelectedMinibusTipo('habilitado');
+    setIsHistorialMode(false);
   };
 
   // Seleccionar minibús del historial
-  /*const handleSelectHistorial = (minibus) => {
-    setSelectedMinibus(minibus);
-    setSelectedMinibusTipo('historial');
-  };*/
   const handleSelectHistorial = (minibus) => {
     setSelectedMinibus(minibus);
     setIsHistorialMode(true);
   };
 
-  // Manejar clic en asiento (solo si el minibús seleccionado es de tipo habilitado)
+  // Ver encomiendas de un minibús del historial
+  const handleVerEncomiendas = (minibus) => {
+    setMinibusHistorialEncomiendas(minibus);
+    setShowHistorialEncomiendas(true);
+  };
+  
+
+  // Manejar clic en asiento
   const handleAsientoClick = (minibusId, fila, columna) => {
-    const minibus = isHistorialMode 
-      ? partidos.find(m => m.id === minibusId) 
+    const minibus = isHistorialMode
+      ? partidos.find(m => m.id === minibusId)
       : habilitados.find(m => m.id === minibusId);
     if (!minibus) return;
     const asiento = minibus.asientos[fila][columna];
-  
+
     if (isHistorialMode) {
-      // Modo historial: mostrar modal de solo lectura si el asiento está vendido
       if (asiento.estado === 'vendido') {
         setAsientoDetalle({ minibus, fila, columna, asiento });
         setShowDetalleModal(true);
       }
     } else {
-      // Modo habilitado: comportamiento normal
       if (asiento.estado === 'libre') {
         setAsientoToSell({ minibusId, fila, columna });
         setShowVentaModal(true);
@@ -179,79 +190,85 @@ const [asientoDetalle, setAsientoDetalle] = useState(null);
       }
     }
   };
-  /*const handleAsientoClick = (minibusId, fila, columna) => {
-    if (selectedMinibusTipo !== 'habilitado') return; // No permitir acciones en historial
-    const minibus = habilitados.find(m => m.id === minibusId);
-    if (!minibus) return;
-    const asiento = minibus.asientos[fila][columna];
 
-    if (asiento.estado === 'libre') {
-      setAsientoToSell({ minibusId, fila, columna });
-      setShowVentaModal(true);
-    } else if (asiento.estado === 'vendido') {
-      setAsientoToEdit({ minibusId, fila, columna });
-      setShowOpcionesModal(true);
-    }
-  };*/
+  // Manejar encomienda (abrir modal)
+  const handleEncomienda = (minibus) => {
+    setMinibusEncomienda(minibus);
+    setShowEncomiendaModal(true);
+  };
+
+  // Guardar encomienda
+  const handleGuardarEncomienda = (datosEncomienda) => {
+    // Guardar en el estado de encomiendas (para historial)
+    setEncomiendas([...encomiendas, { ...datosEncomienda, id: Date.now() }]);
+    setEncomiendaActual(datosEncomienda);
+    setShowEncomiendaModal(false);
+    setShowTicketEncomienda(true);
+  };
+
+ 
 
   return (
     <div className={styles.dashboard}>
-      <h1>Panel del Boletero</h1>
-      <div className={styles.tablasContainer}>
-        {/* Columna izquierda: Minibuses disponibles */}
-        <div className={styles.columna}>
-          <h2>Minibuses Disponibles</h2>
-          <BoleteroMinibusesDisponibles
-            minibuses={disponibles}
-            onSeleccionar={(m) => {
-              setMinibusToHabilitar(m);
-              setShowHabilitarModal(true);
-            }}
-          />
-        </div>
+    <div className={styles.tablasContainer}>
+  {/* Columna izquierda: Minibuses Disponibles */}
+  <div className={styles.columnaIzquierda}>
+    <h2>Minibuses Disponibles</h2>
+    <div className={styles.tablaWrapper}>
+      <BoleteroMinibusesDisponibles
+        minibuses={disponibles}
+        onSeleccionar={(m) => {
+          setMinibusToHabilitar(m);
+          setShowHabilitarModal(true);
+        }}
+      />
+    </div>
+  </div>
 
-        {/* Columna central: Minibuses Habilitados y Minibuses que partieron */}
-        <div className={styles.columna}>
-          <div className={styles.subseccion}>
-            <h2>Minibuses Habilitados</h2>
-            <BoleteroMinibusesHabilitados
-              minibuses={habilitados}
-              onSeleccionar={handleSelectHabilitado}
-              onPartir={handlePartir}
-              selectedId={selectedMinibus?.id}
-            />
-          </div>
-          <div className={styles.subseccion}>
-            <h2>Minibuses que Partieron</h2>
-            {/*<BoleteroMinibusesHistorial
-              minibuses={partidos}
-              onSeleccionar={handleSelectHistorial}
-              selectedId={selectedMinibus?.id}
-            />*/}
-            <BoleteroMinibusesHistorial
-            partidos={partidos}
-            onSeleccionar={handleSelectHistorial}
-            selectedId={selectedMinibus?.id}
-/>
-          </div>
-        </div>
-
-        {/* Columna derecha: Asientos */}
-        <div className={styles.columna}>
-          <h2>Asientos del Minibús</h2>
-          {selectedMinibus ? (
-            <BoleteroAsientos
-              minibus={selectedMinibus}
-              onAsientoClick={handleAsientoClick}
-              readOnly={selectedMinibusTipo === 'historial'} // Solo lectura si es historial
-            />
-          ) : (
-            <p>Seleccione un minibús para ver sus asientos</p>
-          )}
-        </div>
+  {/* Columna central: Habilitados y Partidos */}
+  <div className={styles.columnaCentral}>
+    <div className={styles.seccionCentral}>
+      <h2>Minibuses Habilitados</h2>
+      <div className={styles.tablaScroll}>
+        <BoleteroMinibusesHabilitados
+          minibuses={habilitados}
+          onSeleccionar={handleSelectHabilitado}
+          onPartir={handlePartir}
+          onEncomienda={handleEncomienda}
+          selectedId={selectedMinibus?.id}
+        />
       </div>
+    </div>
+    <div className={styles.seccionCentral}>
+      <h2>Minibuses que Partieron</h2>
+      <div className={styles.tablaScroll}>
+        <BoleteroMinibusesHistorial
+          partidos={partidos}
+          onSeleccionar={handleSelectHistorial}
+          onVerEncomiendas={handleVerEncomiendas}
+          selectedId={selectedMinibus?.id}
+        />
+      </div>
+    </div>
+  </div>
 
-      {/* Modales (igual que antes) */}
+  {/* Columna derecha: Asientos */}
+  <div className={styles.columnaDerecha}>
+    <h2>Asientos del Minibús</h2>
+    <div className={styles.tablaWrapper}>
+      {selectedMinibus ? (
+        <BoleteroAsientos
+          minibus={selectedMinibus}
+          onAsientoClick={handleAsientoClick}
+        />
+      ) : (
+        <p>Seleccione un minibús habilitado o del historial</p>
+      )}
+    </div>
+  </div>
+</div>
+
+      {/* Modales */}
       {showHabilitarModal && (
         <HabilitarMinibusModal
           minibus={minibusToHabilitar}
@@ -303,7 +320,6 @@ const [asientoDetalle, setAsientoDetalle] = useState(null);
         />
       )}
 
-      {/* Modal de detalle de pasajero (solo lectura) */}
       {showDetalleModal && asientoDetalle && (
         <DetallePasajeroModal
           minibus={asientoDetalle.minibus}
@@ -316,6 +332,35 @@ const [asientoDetalle, setAsientoDetalle] = useState(null);
           }}
         />
       )}
+
+      {showEncomiendaModal && minibusEncomienda && (
+        <EncomiendaModal
+          minibus={minibusEncomienda}
+          onClose={() => setShowEncomiendaModal(false)}
+          onGuardar={handleGuardarEncomienda}
+        />
+      )}
+
+      {showTicketEncomienda && encomiendaActual && (
+        <TicketEncomienda
+          encomienda={encomiendaActual}
+          onCerrar={() => {
+            setShowTicketEncomienda(false);
+            setEncomiendaActual(null);
+          }}
+        />
+      )}
+
+    {showHistorialEncomiendas && minibusHistorialEncomiendas && (
+      <HistorialEncomiendasModal
+        minibus={minibusHistorialEncomiendas}
+        encomiendas={encomiendas.filter(e => e.minibusId === minibusHistorialEncomiendas.id)}
+        onClose={() => {
+          setShowHistorialEncomiendas(false);
+          setMinibusHistorialEncomiendas(null);
+        }}
+      />
+    )}
     </div>
   );
 }

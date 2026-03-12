@@ -1,0 +1,67 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+  .modal {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+  }
+  
+  .ticket {
+    font-family: 'Courier New', monospace;
+    background: #fff;
+    padding: 1rem;
+    border: 1px dashed #333;
+  }
+  
+  .ticket h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .ticket p {
+    margin: 0.3rem 0;
+    font-size: 0.9rem;
+  }
+  
+  .linea {
+    border-top: 1px dashed #333;
+    margin: 0.5rem 0;
+  }
+  
+  .acciones {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .imprimirBtn {
+    background-color: #22AB74;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .cerrarBtn {
+    background-color: #e0e0e0;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
