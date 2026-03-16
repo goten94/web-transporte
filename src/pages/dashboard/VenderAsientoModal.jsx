@@ -12,11 +12,11 @@ function VenderAsientoModal({ minibus, fila, columna, onClose, onVender }) {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     onVender({
       minibusId: minibus.id,
+      minibus: minibus,  // <-- pasa el objeto minibus completo
       fila,
       columna,
       pasajero: { nombre: formData.nombre, documento: formData.documento },

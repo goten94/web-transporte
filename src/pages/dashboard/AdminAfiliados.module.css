@@ -294,3 +294,111 @@
     padding: 1rem;
   }
 }
+.vehiculoFotoModal {
+  width: 100px;
+  height: auto;
+  margin-top: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+/* Ajuste de columnas de la tabla */
+.table th:nth-child(1) { width: 60px; }
+.table th:nth-child(2) { min-width: 150px; }
+.table th:nth-child(3) { min-width: 100px; }
+.table th:nth-child(4) { min-width: 100px; }
+.table th:nth-child(5) { min-width: 80px; }
+.table th:nth-child(6) { min-width: 120px; }
+.table th:nth-child(7) { min-width: 100px; }
+
+.tipoFijo {
+  background-color: #f0f0f0;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin: 0;
+}
+.error {
+  color: #d32f2f;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+  display: block;
+}
+.error {
+  color: #d32f2f;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+  display: block;
+}
+.tipoFijo {
+  background-color: #f0f0f0;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin: 0;
+}
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+
+.personalData {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 3px solid #22AB74;
+}
+
+.personalData p {
+  margin: 0.5rem 0;
+}
+
+.vehiculoData h4 {
+  color: #22AB74;
+  margin-bottom: 1rem;
+}
+
+.vehiculoInfo {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.vehiculoText {
+  flex: 1;
+}
+
+.vehiculoText p {
+  margin: 0.4rem 0;
+}
+
+.vehiculoFotoContainer {
+  flex-shrink: 0;
+  max-width: 200px;
+}
+
+.vehiculoFotoModal {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 2px solid #22AB74;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.noVehiculo {
+  padding: 1rem;
+  background-color: #fff3cd;
+  border-radius: 4px;
+  color: #856404;
+}
+
+@media (max-width: 600px) {
+  .vehiculoInfo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .vehiculoFotoContainer {
+    max-width: 100%;
+  }
+}

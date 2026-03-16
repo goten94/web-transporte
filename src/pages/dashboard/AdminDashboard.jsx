@@ -2,8 +2,10 @@ import { useState } from 'react';
 import AdminAfiliados from './AdminAfiliados';
 import AdminSolicitudes from './AdminSolicitudes';
 import styles from './AdminDashboard.module.css';
+import AdminListaAdministrativa from './AdminListaAdministrativa';
 
 // Datos mock iniciales de afiliados
+// Datos mock iniciales de afiliados (con licencia y categoría)
 const initialAfiliados = [
   {
     id: 1,
@@ -12,8 +14,12 @@ const initialAfiliados = [
     email: 'juan.perez@example.com',
     telefono: '78912345',
     tipo: 'propietario',
+    licencia: '8765454',
+    categoria: 'A',
+    username: 'juanP',
     vehiculo: {
       marca: 'Toyota',
+      modelo: 'Hiace',
       tipo: 'Minibús',
       placa: 'ABC-123',
       ruat: 'RUAT-001',
@@ -32,13 +38,10 @@ const initialAfiliados = [
     email: 'maria.gomez@example.com',
     telefono: '71234567',
     tipo: 'asalariado',
-    vehiculo: {
-      marca: 'Volvo',
-      tipo: 'Volqueta',
-      placa: 'XYZ-789',
-      ruat: 'RUAT-002',
-      foto: 'https://via.placeholder.com/60x40?text=Volvo'
-    },
+    licencia: '87545654',
+    categoria: 'B',
+    username: 'mariaG',
+    vehiculo: null,
     aportes: [
       { mes: 'Enero 2025', monto: 200, estado: 'pagado' },
       { mes: 'Febrero 2025', monto: 200, estado: 'pagado' },
@@ -113,7 +116,13 @@ function AdminDashboard() {
 
   // Funciones para manejar afiliados
   const handleAddAfiliado = (nuevoAfiliado) => {
-    setAfiliados([...afiliados, { ...nuevoAfiliado, id: Date.now(), aportes: [] }]);
+    setAfiliados([...afiliados, { 
+      ...nuevoAfiliado, 
+      id: Date.now(), 
+      aportes: [],
+      licencia: nuevoAfiliado.licencia || '',
+      categoria: nuevoAfiliado.categoria || ''
+    }]);
   };
 
   const handleEditAfiliado = (afiliadoEditado) => {
@@ -157,10 +166,10 @@ function AdminDashboard() {
           Lista de afiliados
         </button>
         <button
-          className={`${styles.tabButton} ${activeTab === 'solicitudes' ? styles.activeTab : ''}`}
-          onClick={() => setActiveTab('solicitudes')}
+          className={`${styles.tabButton} ${activeTab === 'administrativa' ? styles.activeTab : ''}`}
+          onClick={() => setActiveTab('administrativa')}
         >
-          Solicitudes de nuevos socios
+          Lista Administrativa
         </button>
         <button
           className={`${styles.tabButton} ${activeTab === 'configuracion' ? styles.activeTab : ''}`}
@@ -181,12 +190,8 @@ function AdminDashboard() {
           />
         )}
 
-        {activeTab === 'solicitudes' && (
-          <AdminSolicitudes
-            solicitudes={solicitudes}
-            onApprove={handleApproveSolicitud}
-            onReject={handleRejectSolicitud}
-          />
+        {activeTab === 'administrativa' && (
+          <AdminListaAdministrativa />
         )}
 
         {activeTab === 'configuracion' && (

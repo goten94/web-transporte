@@ -1,0 +1,220 @@
+.container {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .headerActions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .headerActions h2 {
+    color: #22AB74;
+    margin: 0;
+  }
+  
+  .searchBox {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0.3rem 0.8rem;
+    flex: 1;
+    min-width: 250px;
+    max-width: 400px;
+  }
+  
+  .searchIcon {
+    color: #999;
+    margin-right: 0.5rem;
+  }
+  
+  .searchBox input {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+  }
+  
+  .addButton {
+    background-color: #22AB74;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+  }
+  
+  .addButton:hover {
+    background-color: #1a8a5c;
+  }
+  
+  .tableWrapper {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    background: white;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1000px;
+    font-size: 0.9rem;
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: middle;
+  }
+  
+  .table th {
+    background-color: #22AB74;
+    color: white;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  
+  .table tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .foto {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #22AB74;
+  }
+  
+  .actionButtons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .actionBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.3rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+  
+  .actionBtn:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .editBtn {
+    color: #ed6c02;
+  }
+  
+  .deleteBtn {
+    color: #d32f2f;
+  }
+  
+  .noData {
+    text-align: center;
+    padding: 2rem;
+    color: #999;
+  }
+  
+  /* Modal */
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+  
+  .modal h3 {
+    color: #22AB74;
+    margin-bottom: 1.5rem;
+  }
+  
+  .formGroup {
+    margin-bottom: 1rem;
+  }
+  
+  .formGroup label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  
+  .formGroup input,
+  .formGroup select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+  }
+  
+  .error {
+    color: #d32f2f;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+    display: block;
+  }
+  
+  .modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .modalActions button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .modalActions button[type="button"]:first-of-type {
+    background-color: #22AB74;
+    color: white;
+  }
+  
+  .modalActions button[type="button"]:last-of-type {
+    background-color: #e0e0e0;
+  }

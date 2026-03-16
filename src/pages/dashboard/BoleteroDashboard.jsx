@@ -10,6 +10,7 @@ import OpcionesAsientoModal from './OpcionesAsientoModal';
 import DetallePasajeroModal from './DetallePasajeroModal';
 import EncomiendaModal from './EncomiendaModal';
 import TicketEncomienda from './TicketEncomienda';
+import TicketFactura from './TicketFactura';
 import HistorialEncomiendasModal from './HistorialEncomiendasModal'; // Nuevo
 import styles from './BoleteroDashboard.module.css';
 
@@ -39,6 +40,8 @@ function BoleteroDashboard() {
   const [minibusEncomienda, setMinibusEncomienda] = useState(null);
   const [showTicketEncomienda, setShowTicketEncomienda] = useState(false);
   const [encomiendaActual, setEncomiendaActual] = useState(null);
+  const [showTicket, setShowTicket] = useState(false);
+const [ventaActual, setVentaActual] = useState(null);
 
   
   // Nuevo estado para almacenar todas las encomiendas
@@ -82,8 +85,9 @@ function BoleteroDashboard() {
 
   // Vender asiento
   const handleVenderAsiento = (datosVenta) => {
-    const { minibusId, fila, columna, pasajero, costo, destino } = datosVenta;
-    setHabilitados(habilitados.map(m => {
+    const { minibusId, minibus, fila, columna, pasajero, costo, destino } = datosVenta;
+  
+    setHabilitados(prev => prev.map(m => {
       if (m.id === minibusId) {
         const nuevosAsientos = [...m.asientos];
         nuevosAsientos[fila][columna] = {
@@ -96,6 +100,16 @@ function BoleteroDashboard() {
       }
       return m;
     }));
+  
+    setVentaActual({
+      minibus: datosVenta.minibus, // asegúrate de pasar el minibus desde el modal
+      fila: datosVenta.fila,
+      columna: datosVenta.columna,
+      pasajero: datosVenta.pasajero,
+      costo: datosVenta.costo,
+      destino: datosVenta.destino,
+    });
+    setShowTicket(true);
     setShowVentaModal(false);
     setAsientoToSell(null);
   };
@@ -210,6 +224,10 @@ function BoleteroDashboard() {
 
   return (
     <div className={styles.dashboard}>
+      <div className={styles.header}>
+        <h1>Panel del Boletero</h1>
+        <div className={styles.greenLine}></div>
+      </div>
     <div className={styles.tablasContainer}>
   {/* Columna izquierda: Minibuses Disponibles */}
   <div className={styles.columnaIzquierda}>
@@ -228,7 +246,7 @@ function BoleteroDashboard() {
   {/* Columna central: Habilitados y Partidos */}
   <div className={styles.columnaCentral}>
     <div className={styles.seccionCentral}>
-      <h2>Minibuses Habilitados</h2>
+      <h2 className={styles.title}>Minibuses Habilitados</h2>
       <div className={styles.tablaScroll}>
         <BoleteroMinibusesHabilitados
           minibuses={habilitados}
@@ -361,6 +379,16 @@ function BoleteroDashboard() {
         }}
       />
     )}
+
+{showTicket && ventaActual && (
+  <TicketFactura
+    venta={ventaActual}
+    onCerrar={() => {
+      setShowTicket(false);
+      setVentaActual(null);
+    }}
+  />
+)}
     </div>
   );
 }

@@ -90,3 +90,42 @@
     grid-template-columns: 1fr;
   }
 }
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.header h1 {
+  color: black;
+  font-size: 2rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.greenLine {
+  height: 4px;
+  background-color: #22AB74;
+  width: 100%;
+  border-radius: 2px;
+}
+
+/* Ajustes para las columnas centrales */
+.columnaCentral {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.subcolumna {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.noSeleccion {
+  text-align: center;
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  color: #777;
+}

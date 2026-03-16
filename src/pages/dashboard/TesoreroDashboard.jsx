@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './TesoreroDashboard.module.css';
 import PagoModal from './PagoModal';
-import TicketPago from './TicketPago.jsx';
+import TicketPago from './TicketPago';
 
 // Datos mock de afiliados propietarios (con deudas simuladas)
 const initialAfiliados = [
@@ -45,9 +45,8 @@ function TesoreroDashboard() {
   const [searchTermDeudores, setSearchTermDeudores] = useState('');
   const [showPagoModal, setShowPagoModal] = useState(false);
   const [selectedAfiliado, setSelectedAfiliado] = useState(null);
-  const [selectedMes, setSelectedMes] = useState(null); // mes a pagar
   const [showTicket, setShowTicket] = useState(false);
-  const [pagoRealizado, setPagoRealizado] = useState(null); // datos del pago completado
+  const [pagoRealizado, setPagoRealizado] = useState(null);
 
   // Filtrar todos los afiliados
   const filteredAll = afiliados.filter(a =>
@@ -64,33 +63,43 @@ function TesoreroDashboard() {
     a.vehiculo.placa.toLowerCase().includes(searchTermDeudores.toLowerCase())
   );
 
-  const handlePagarClick = (afiliado, mes) => {
+  const handlePagarClick = (afiliado) => {
     setSelectedAfiliado(afiliado);
-    setSelectedMes(mes);
     setShowPagoModal(true);
   };
 
   const handlePagoSubmit = (datosPago) => {
-    // Actualizar el estado del aporte a "pagado"
+    const { afiliadoId, mes, monto, ...resto } = datosPago;
     setAfiliados(prev =>
       prev.map(a => {
-        if (a.id === selectedAfiliado.id) {
-          const nuevosAportes = a.aportes.map(ap =>
-            ap.mes === selectedMes ? { ...ap, estado: 'pagado' } : ap
-          );
-          return { ...a, aportes: nuevosAportes };
+        if (a.id === afiliadoId) {
+          // Buscar si ya existe un aporte para ese mes
+          const aporteExistente = a.aportes.find(ap => ap.mes === mes);
+          if (aporteExistente) {
+            // Actualizar el existente a pagado
+            const nuevosAportes = a.aportes.map(ap =>
+              ap.mes === mes ? { ...ap, estado: 'pagado' } : ap
+            );
+            return { ...a, aportes: nuevosAportes };
+          } else {
+            // Crear un nuevo aporte pagado
+            const nuevoAporte = {
+              mes,
+              monto: Number(monto),
+              estado: 'pagado'
+            };
+            return { ...a, aportes: [...a.aportes, nuevoAporte] };
+          }
         }
         return a;
       })
     );
-
-    // Guardar datos del pago para el ticket
+  
     setPagoRealizado({
-      ...datosPago,
-      afiliado: selectedAfiliado,
-      mes: selectedMes,
-      fecha: new Date().toLocaleDateString(),
-      hora: new Date().toLocaleTimeString(),
+      ...resto,
+      afiliado: afiliados.find(a => a.id === afiliadoId),
+      mes,
+      monto,
     });
     setShowPagoModal(false);
     setShowTicket(true);
@@ -122,9 +131,10 @@ function TesoreroDashboard() {
                 <tr>
                   <th>Foto</th>
                   <th>Nombre</th>
+                  <th>Email</th>
                   <th>Teléfono</th>
                   <th>Vehículo</th>
-                  <th>Acciones</th>
+                  <th>Acción</th>
                 </tr>
               </thead>
               <tbody>
@@ -132,22 +142,16 @@ function TesoreroDashboard() {
                   <tr key={afi.id}>
                     <td><img src={afi.foto} alt={afi.nombre} className={styles.foto} /></td>
                     <td>{afi.nombre}</td>
+                    <td>{afi.email}</td>
                     <td>{afi.telefono}</td>
                     <td>{afi.vehiculo.marca} - {afi.vehiculo.placa}</td>
                     <td>
-                      <div className={styles.actionButtons}>
-                        {afi.aportes
-                          .filter(ap => ap.estado === 'pendiente')
-                          .map(ap => (
-                            <button
-                              key={ap.mes}
-                              className={styles.pagarBtn}
-                              onClick={() => handlePagarClick(afi, ap.mes)}
-                            >
-                              Pagar {ap.mes}
-                            </button>
-                          ))}
-                      </div>
+                      <button
+                        className={styles.pagarBtn}
+                        onClick={() => handlePagarClick(afi)}
+                      >
+                        Pagar
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -174,7 +178,7 @@ function TesoreroDashboard() {
                   <th>Nombre</th>
                   <th>Vehículo</th>
                   <th>Meses Adeudados</th>
-                  <th>Acciones</th>
+                  <th>Acción</th>
                 </tr>
               </thead>
               <tbody>
@@ -203,10 +207,9 @@ function TesoreroDashboard() {
       </div>
 
       {/* Modal de pago */}
-      {showPagoModal && selectedAfiliado && selectedMes && (
+      {showPagoModal && selectedAfiliado && (
         <PagoModal
           afiliado={selectedAfiliado}
-          mes={selectedMes}
           onClose={() => setShowPagoModal(false)}
           onPagar={handlePagoSubmit}
         />
